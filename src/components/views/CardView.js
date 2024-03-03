@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Alert, StyleSheet } from "react-native";
-import { View, Button, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-
-import { setList } from "../../store/reducers/navigationReducer";
-
-import { logState } from "../../store/reducers/navigationReducer";
-import { addCard, deleteCard } from "../../store/reducers/cardReducer";
-
-import Icon from "react-native-vector-icons/FontAwesome";
+import { deleteCard } from "../../store/reducers/cardReducer";
 
 import CardItem from "../card/CardItem";
 import AddCardComponent from "../card/AddCard";
@@ -18,11 +12,11 @@ import { confirmationAlert } from "../confirmation/ConfirmationAlert";
 import IconButton from "../buttons/IconButton";
 import IndexCounter from "../card/IndexCounter";
 
-const CardView = ({ navigation, listName }) => {
+const CardView = ({ navigation }) => {
   const dispatch = useDispatch();
   const [addState, setAddState] = useState(null);
-  const [editState, setEditState] = useState(false);
-
+  const [editCardState, setCardEditState] = useState(false);
+  const [editListState, setEditListState] = useState(false);
   const [index, setIndex] = useState(0);
   const selectedList = useSelector((state) => state.navigation.list);
 
@@ -71,11 +65,18 @@ const CardView = ({ navigation, listName }) => {
           setIndex={() => setIndex(currentList.cards.length)}
         />
       )}
-      {editState && (
+      {editCardState && (
         <EditCardComponent
           currentCard={currentList?.cards[index]}
           listName={currentList.name}
-          setEditState={() => setEditState(false)}
+          setEditState={() => setCardEditState(false)}
+        />
+      )}
+
+      {editListState && (
+        <EditList
+          setEditListState={setEditListState}
+          originalListName={list.name}
         />
       )}
       <View style={styles.header}>
@@ -110,7 +111,7 @@ const CardView = ({ navigation, listName }) => {
         <IndexCounter listLength={currentList.cards.length} index={index} />
         <DefaultButton
           disabledIf={!currentList?.cards[index]}
-          onPressHandler={() => setEditState(true)}
+          onPressHandler={() => setCardEditState(true)}
           text={"Editar"}
         />
       </View>
