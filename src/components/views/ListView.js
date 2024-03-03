@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { View, Text, Button } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { setList } from "../../store/reducers/navigationReducer";
+import { View, Text } from "react-native";
+import { useSelector } from "react-redux";
 import ListItem from "../list/ListItem";
 import AddList from "../list/AddList";
 import { TouchableOpacity } from "react-native-gesture-handler";

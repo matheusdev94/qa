@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { readFile, writeFile } from "../../data/data";
 import { Alert } from "react-native";
 
-// const initialState = readFile();
 const cardSlice = createSlice({
   name: "cards",
   initialState: {},
@@ -52,11 +51,6 @@ const cardSlice = createSlice({
       list.cards = list.cards.filter((item) => item.question !== question);
       writeFile(state);
     },
-    // searchCard(state, action) {
-    //   const { listName, question } = action.payload;
-    //   const list = state.cardList.find((list) => list.listName === listName);
-    //   return list.cards.find((card) => card.question === question);
-    // },
     updateCard(state, action) {
       const { originalQuestion, imgField, question, answer, listName } =
         action.payload;

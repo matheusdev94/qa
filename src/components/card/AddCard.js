@@ -30,15 +30,6 @@ const AddCardComponent = ({ setAddState, listName, setIndex }) => {
       setErr("Precisa haver valores nos campos.");
       return;
     }
-    // if (question === "" && !selectedImageQuestion) {
-    //   setErr("Campo de pergunta vazio...");
-    //   return;
-    // }
-
-    // if (answer === "" && !selectedImageAnswer) {
-    //   setErr("Campo de resposta vazio...");
-    //   return;
-    // }
 
     const imgFieldFn = () => {
       const fields = [];
@@ -160,10 +151,10 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "white",
     color: "gray",
-    height: 150, // Altura do input
-    fontSize: 16, // Tamanho da fonte do input
-    paddingTop: 10, // Espaçamento superior
-    textAlignVertical: "top", // Alinha o texto ao topo
+    height: 150,
+    fontSize: 16,
+    paddingTop: 10,
+    textAlignVertical: "top",
     padding: 5,
     borderRadius: 10,
   },
@@ -180,7 +171,6 @@ const styles = StyleSheet.create({
   viewButton: {
     flexDirection: "row",
     width: "100%",
-    // backgroundColor: "blue",
     alignContent: "center",
     justifyContent: "center",
   },

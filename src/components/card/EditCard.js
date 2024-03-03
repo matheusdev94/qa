@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import UploadPhotoButton from "../photoUploader/uploadPhotoButton";
-import {
-  Image,
-  TextInput,
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  Alert,
-  Touchable,
-} from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
-import { useDispatch, useSelector } from "react-redux";
-import { addCard, addList, updateCard } from "../../store/reducers/cardReducer";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
+import { updateCard } from "../../store/reducers/cardReducer";
 import OkCancelButton from "../buttons/OkCancel";
 import QAInputField from "./QAInputField";
 
@@ -36,19 +26,6 @@ const EditCardComponent = ({ currentCard, listName, setEditState }) => {
   const dispatch = useDispatch();
 
   const handleEditCard = (originalQuestion, question, answer, listName) => {
-    // if (!question && !selectedImageQuestion) {
-    //   setErr("Campos vazios...");
-    //   return;
-    // }
-    // if (!answer && !selectedImageAnswer) {
-    //   setErr("Campos vazios...");
-    //   return;
-    // }
-
-    // if (question === "" || answer === "") {
-    //   setErr("Campos vazios...");
-    //   return;
-    // }
     const imgFieldFn = () => {
       const fields = [];
       if (selectedImageAnswer) fields.push("a");
@@ -152,7 +129,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     margin: 10,
-    // backgroundColor: "white",
     color: "white",
     marginLeft: 0,
   },
@@ -180,10 +156,10 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "white",
     color: "gray",
-    height: 250, // Altura do input
-    fontSize: 13, // Tamanho da fonte do input
-    paddingTop: 10, // Espaçamento superior
-    textAlignVertical: "top", // Alinha o texto ao topo
+    height: 250,
+    fontSize: 13,
+    paddingTop: 10,
+    textAlignVertical: "top",
     padding: 5,
     borderRadius: 10,
   },
@@ -203,7 +179,6 @@ const styles = StyleSheet.create({
   viewButton: {
     flexDirection: "row",
     width: "100%",
-    // backgroundColor: "blue",
     alignContent: "center",
     justifyContent: "center",
   },

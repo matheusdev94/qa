@@ -21,6 +21,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: "100%",
-    // position: "relative", // Certifique-se de que o container tenha posicionamento relativo
   },
 });

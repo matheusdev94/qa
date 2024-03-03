@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { readFile } from "../../data/data";
-// const initialState = readFile();
 const navigationSlice = createSlice({
   name: "navigation",
   initialState: {

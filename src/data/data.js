@@ -1,6 +1,5 @@
 import * as FileSystem from "expo-file-system";
 
-// Obtém o caminho absoluto para o arquivo JSON
 const fileUri = `${FileSystem.documentDirectory}QA-Data.json`;
 
 export const initFile = () => {
@@ -10,8 +9,6 @@ export const initFile = () => {
         name: "sample",
         cards: [
           {
-            //this says that answer and question are images
-            // imgField:["a",'q'],
             imgField: [],
             answer: "bla bla",
             question: "bla?",

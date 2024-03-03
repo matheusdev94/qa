@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Button, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { StyleSheet } from "react-native";
 
 const CardItem = ({ card }) => {

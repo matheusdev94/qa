@@ -13,10 +13,10 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import CardItem from "../card/CardItem";
 import AddCardComponent from "../card/AddCard";
 import EditCardComponent from "../card/EditCard";
-import DefaultButton from "../buttons/defaultButton";
+import DefaultButton from "../buttons/DefaultButton";
 import { confirmationAlert } from "../confirmation/ConfirmationAlert";
 import IconButton from "../buttons/IconButton";
-import IndexCounter from "../card/indexCounter"; // 🤡
+import IndexCounter from "../card/IndexCounter";
 
 const CardView = ({ navigation, listName }) => {
   const dispatch = useDispatch();
