@@ -1,24 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { View, Text } from "react-native";
 import { useSelector } from "react-redux";
 import ListItem from "../list/ListItem";
 import AddList from "../list/AddList";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
+import EditList from "../list/EditList";
 
-const ListView = ({ navigation, setListName }) => {
+const ListView = ({ navigation }) => {
   const lists = useSelector((state) => state.cards.lists);
   const [addListState, setAddListState] = useState(false);
+  const [editListState, setEditListState] = useState(false);
+  const [editListName, setEditListName] = useState(null);
+
+  useEffect(() => {
+    console.log(lists);
+  }, [lists]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Listas</Text>
       {addListState && <AddList setAddListState={setAddListState} />}
+      {editListState && (
+        <EditList
+          setEditListState={setEditListState}
+          originalListName={editListName}
+        />
+      )}
       <View style={styles.listsContainer}>
         {lists?.map((list, index) => {
           return (
             <View key={index} style={styles.item}>
-              <ListItem key={index} list={list} navigation={navigation} />
+              <ListItem
+                setEditListState={setEditListState}
+                setEditListName={setEditListName}
+                key={index}
+                list={list}
+                navigation={navigation}
+              />
             </View>
           );
         })}

@@ -26,10 +26,11 @@ const cardSlice = createSlice({
       writeFile(state);
     },
     updateList(state, action) {
-      const { oldName, newName } = action.payload;
-
+      const { originalListName, listName } = action.payload;
       state.lists = state.lists.map((list) =>
-        list.name === oldName ? { name: newName, cards: list.cards } : list
+        list.name === originalListName
+          ? { name: listName, cards: list.cards }
+          : list
       );
       writeFile(state);
     },

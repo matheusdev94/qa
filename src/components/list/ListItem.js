@@ -3,17 +3,12 @@ import { TextInput, View, Text, Button, StyleSheet, Alert } from "react-native";
 import { useDispatch } from "react-redux/dist/react-redux";
 import { setList } from "../../store/reducers/navigationReducer";
 import { deleteList } from "../../store/reducers/cardReducer";
-import DefaultButton from "../buttons/DefaultButton";
-
 import { confirmationAlert } from "../confirmation/ConfirmationAlert";
-
-import Icon from "react-native-vector-icons/FontAwesome";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import IconButton from "../buttons/IconButton";
 import ListCounter from "./ListCountItem";
 
-const ListItem = ({ list, navigation }) => {
-  const [confiramtion, setConfirmation] = useState(false);
+const ListItem = ({ list, navigation, setEditListName, setEditListState }) => {
   const dispatch = useDispatch();
 
   const setSelectedList = () => {
@@ -30,8 +25,10 @@ const ListItem = ({ list, navigation }) => {
       dispatch(deleteList(list.name));
     }
   };
-
-  console.log("LIST: ", list);
+  const handleEdit = () => {
+    setEditListState(true);
+    setEditListName(list.name);
+  };
 
   return (
     <View style={styles.container}>
@@ -44,7 +41,8 @@ const ListItem = ({ list, navigation }) => {
 
       <TouchableOpacity
         style={styles.itemContainer}
-        onPress={() => setSelectedList(list.name)}
+        onPress={() => handleEdit()}
+        set
       >
         <Text style={{ fontSize: 21 }}>{list.name}</Text>
         <ListCounter list={list} />
