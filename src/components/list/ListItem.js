@@ -3,10 +3,13 @@ import { TextInput, View, Text, Button, StyleSheet, Alert } from "react-native";
 import { useDispatch } from "react-redux/dist/react-redux";
 import { setList } from "../../store/reducers/navigationReducer";
 import { deleteList } from "../../store/reducers/cardReducer";
-import DefaultButton from "../buttons/default";
+import DefaultButton from "../buttons/defaultButton";
+
+import { confirmationAlert } from "../confirmation/ConfirmationAlert";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import IconButton from "../buttons/IconButton";
 
 const ListItem = ({ list, navigation }) => {
   const [confiramtion, setConfirmation] = useState(false);
@@ -16,26 +19,9 @@ const ListItem = ({ list, navigation }) => {
     dispatch(setList(list.name));
     navigation.navigate("CardView");
   };
-  const showAlertWithOptions = async () => {
-    return await new Promise((resolve) => {
-      Alert.alert(
-        "Excluir?",
-        "Essa ação não pode ser desfeita.",
-        [
-          {
-            text: "Excluir",
-            onPress: () => resolve(true),
-          },
-          {
-            text: "Cancelar",
-            onPress: () => resolve(false),
-            style: "cancel",
-          },
-        ],
-        { cancelable: true }
-      );
-    });
-  };
+  const showAlertWithOptions = async () =>
+    confirmationAlert("Excluir a lista?", "Essa ação não pode ser desfeita.");
+
   const handleDeleteList = async () => {
     const userChoice = await showAlertWithOptions();
 
@@ -53,36 +39,30 @@ const ListItem = ({ list, navigation }) => {
         <Text style={{ color: "white" }}>Exluir</Text>
       </TouchableOpacity>
 
-      <View style={styles.itemContainer}>
-        <Text style={{ fontSize: 21 }}>{list.name}</Text>
-      </View>
-
       <TouchableOpacity
+        style={styles.itemContainer}
         onPress={() => setSelectedList(list.name)}
-        style={styles.buttonNextContainer}
       >
-        <Icon name="chevron-right" size={20} color="white" />
+        <Text style={{ fontSize: 21 }}>{list.name}</Text>
       </TouchableOpacity>
+
+      <IconButton
+        onPressHandler={() => setSelectedList(list.name)}
+        iconName="chevron-right"
+        size={20}
+        iconColor="#fff"
+        background="#52C1DE"
+      />
     </View>
   );
 };
 const styles = StyleSheet.create({
-  buttonNextContainer: {
-    backgroundColor: "#52C1DE",
-    height: 45,
-    width: 45,
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
-    borderRadius: 100,
-    margin: 7,
-  },
   itemContainer: {
-    // flexDirection: 'row'
-    // width: "80%",
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
+    height: "100%",
+    width: 200,
   },
   buttonContainer: {
     margin: 5,
@@ -91,7 +71,7 @@ const styles = StyleSheet.create({
     padding: 3,
     paddingLeft: 20,
     paddingRight: 20,
-    borderRadius: 20,
+    borderRadius: 10,
     height: "80%",
     justifyContent: "center",
     alignContent: "center",

@@ -14,6 +14,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { addCard, addList, updateCard } from "../../store/reducers/cardReducer";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import OkCancelButton from "../buttons/OkCancel";
+import QAInputField from "./QAInputField";
 
 const EditCardComponent = ({ currentCard, listName, setEditState }) => {
   const [originalQuestion, setOriginalQuestion] = useState(
@@ -34,19 +36,19 @@ const EditCardComponent = ({ currentCard, listName, setEditState }) => {
   const dispatch = useDispatch();
 
   const handleEditCard = (originalQuestion, question, answer, listName) => {
-    if (!question && !selectedImageQuestion) {
-      setErr("Campos vazios...");
-      return;
-    }
-    if (!answer && !selectedImageAnswer) {
-      setErr("Campos vazios...");
-      return;
-    }
+    // if (!question && !selectedImageQuestion) {
+    //   setErr("Campos vazios...");
+    //   return;
+    // }
+    // if (!answer && !selectedImageAnswer) {
+    //   setErr("Campos vazios...");
+    //   return;
+    // }
 
-    if (question === "" || answer === "") {
-      setErr("Campos vazios...");
-      return;
-    }
+    // if (question === "" || answer === "") {
+    //   setErr("Campos vazios...");
+    //   return;
+    // }
     const imgFieldFn = () => {
       const fields = [];
       if (selectedImageAnswer) fields.push("a");
@@ -55,12 +57,6 @@ const EditCardComponent = ({ currentCard, listName, setEditState }) => {
       return fields;
     };
     const imgField = imgFieldFn();
-
-    console.log();
-    console.log();
-    console.log("123456789: ", imgField);
-    console.log();
-    console.log();
 
     const card = {
       originalQuestion: originalQuestion,
@@ -91,25 +87,12 @@ const EditCardComponent = ({ currentCard, listName, setEditState }) => {
               resetInput={true}
             />
           </View>
-          {selectedImageQuestion ? (
-            <Image
-              style={styles.image}
-              source={{
-                uri: selectedImageQuestion
-                  ? selectedImageQuestion
-                  : currentCard.question,
-              }}
-              resizeMode="contain"
-            />
-          ) : (
-            <TextInput
-              style={styles.input}
-              onChangeText={(e) => setQuestion(e)}
-              value={question}
-              multiline={true}
-              placeholder="Pergunta"
-            />
-          )}
+          <QAInputField
+            placeHolder="Pergunta"
+            value={question}
+            selectedImage={selectedImageQuestion}
+            changeValue={setQuestion}
+          />
         </View>
 
         <View style={styles.area}>
@@ -122,43 +105,24 @@ const EditCardComponent = ({ currentCard, listName, setEditState }) => {
               resetInput={true}
             />
           </View>
-          {selectedImageAnswer ? (
-            // currentCard.imgField.includes("a") ? (
-            <Image
-              style={styles.image}
-              source={{
-                uri: selectedImageAnswer
-                  ? selectedImageAnswer
-                  : currentCard.answer,
-              }}
-              resizeMode="contain"
-            />
-          ) : (
-            <TextInput
-              style={styles.input}
-              onChangeText={(e) => setAnswer(e)}
-              value={answer}
-              placeholder="Resposta"
-              multiline={true}
-            />
-          )}
+          <QAInputField
+            placeHolder="Resposta"
+            value={answer}
+            selectedImage={selectedImageAnswer}
+            changeValue={setAnswer}
+          />
         </View>
         <View style={styles.viewButton}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() =>
+          <OkCancelButton
+            onPressHandler={() =>
               handleEditCard(originalQuestion, question, answer, listName)
             }
-          >
-            <Text style={styles.textBtn}>Ok</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => setEditState(false)}
-          >
-            <Text style={styles.textBtn}>Cancelar</Text>
-          </TouchableOpacity>
+            text="Ok"
+          />
+          <OkCancelButton
+            onPressHandler={() => setEditState(false)}
+            text="Cancelar"
+          />
         </View>
       </View>
     </View>

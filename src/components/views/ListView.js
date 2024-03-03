@@ -2,18 +2,15 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { View, Text, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { setList } from "../store/reducers/navigationReducer";
-import ListItem from "../components/list/ListItem";
-import AddList from "../components/list/AddList";
+import { setList } from "../../store/reducers/navigationReducer";
+import ListItem from "../list/ListItem";
+import AddList from "../list/AddList";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ListView = ({ navigation, setListName }) => {
   const lists = useSelector((state) => state.cards.lists);
-
-  // const [selectedList, setSelectedList] = useState(null);
   const [addListState, setAddListState] = useState(false);
 
-  console.log(lists);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Listas</Text>
@@ -57,28 +54,22 @@ const styles = StyleSheet.create({
     margin: 20,
     marginBottom: 0,
     marginTop: 10,
-
     borderRadius: 10,
   },
   listsContainer: {
     flex: 1,
-    // backgroundColor: "red",
-    // alignItems: "center",
-    // justifyContent: "top",
     width: "100%",
-    // height: "80%",
   },
   container: {
     flex: 1,
     backgroundColor: "lightblue",
     alignItems: "center",
     justifyContent: "top",
-    // width: "100%",
     height: "90%",
     paddingTop: 50,
   },
   plusButton: {
-    alignSelf: "stretch", // Estique o contêiner horizontalmente
+    alignSelf: "stretch",
     backgroundColor: "rgb(82,193,222)'",
     marginBottom: 5,
     width: "90%",

@@ -4,12 +4,12 @@ import { TextInput, View, Text, Button, StyleSheet, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addList } from "../../store/reducers/cardReducer";
 import { TouchableOpacity } from "react-native";
+import OkCancelButton from "../buttons/OkCancel";
 
 const AddList = ({ setAddListState }) => {
   const dispatch = useDispatch();
   const [listName, setListName] = useState("");
 
-  // const doAddList = () => ;
   const AddList = () => {
     if (listName === "") {
       return;
@@ -32,21 +32,11 @@ const AddList = ({ setAddListState }) => {
           placeholder="Nome da lista"
         />
         <View style={styles.viewButton}>
-          <TouchableOpacity
-            onPress={() => AddList()}
-            style={styles.buttonContainer}
-          >
-            <Text style={styles.textBtn}>OK</Text>
-          </TouchableOpacity>
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={() => setAddListState()}
-              style={styles.buttonContainer}
-            >
-              <Text style={styles.textBtn}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
+          <OkCancelButton onPressHandler={() => AddList()} text={"Ok"} />
+          <OkCancelButton
+            onPressHandler={() => setAddListState(false)}
+            text={"Cancelar"}
+          />
         </View>
       </View>
     </View>

@@ -3,8 +3,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { View } from "react-native";
 import { TouchableOpacity, Text, StyleSheet, Image, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-{
-}
+import IconButton from "../buttons/IconButton";
 
 const UploadPhotoButton = ({
   selectedImage,
@@ -37,15 +36,22 @@ const UploadPhotoButton = ({
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => handleRemoveImage()}
-        style={styles.buttonCancel}
-      >
-        <Icon name="remove" size={20} color="white" />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handlePickImage}>
-        <Icon name="photo" size={20} color="white" />
-      </TouchableOpacity>
+      <IconButton
+        onPressHandler={() => handleRemoveImage()}
+        iconName="remove"
+        size={20}
+        iconColor="#fff"
+        background="#52C1DE"
+        borderRad={10}
+      />
+      <IconButton
+        onPressHandler={handlePickImage}
+        iconName="photo"
+        size={20}
+        iconColor="#fff"
+        background="#234879"
+        borderRad={10}
+      />
     </View>
   );
 };
