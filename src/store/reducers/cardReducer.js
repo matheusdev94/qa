@@ -37,10 +37,10 @@ const cardSlice = createSlice({
 
     addCard(state, action) {
       console.log(action.payload);
-      const { fieldImg, question, answer, listName } = action.payload;
+      const { imgField, question, answer, listName } = action.payload;
       const list = state.lists.find((list) => list.name === listName);
       list.cards.push({
-        imgField: fieldImg,
+        imgField: imgField,
         question: question,
         answer: answer,
       });
@@ -58,11 +58,12 @@ const cardSlice = createSlice({
     //   return list.cards.find((card) => card.question === question);
     // },
     updateCard(state, action) {
-      const { originalQuestion, question, answer, listName } = action.payload;
+      const { originalQuestion, imgField, question, answer, listName } =
+        action.payload;
       const list = state.lists.find((list) => list.name === listName);
       list.cards = list.cards.map((c) =>
         c.question === originalQuestion
-          ? { question: question, answer: answer }
+          ? { question: question, answer: answer, imgField: imgField }
           : c
       );
       writeFile(state);

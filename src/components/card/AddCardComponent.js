@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextInput, View, Text, Button, StyleSheet, Alert } from "react-native";
-
+import { TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addCard, addList } from "../../store/reducers/cardReducer";
 
@@ -18,9 +18,7 @@ const AddCardComponent = ({ setAddState, listName }) => {
   const [err, setErr] = useState();
   const dispatch = useDispatch();
 
-  const currentList = useSelector((state) => state.navigation);
-
-  const handleAddCard = () => {
+  const addNewCard = () => {
     //validations
     if (question === "" && !selectedImageQuestion) {
       setErr("Campo de pergunta vazio...");
@@ -32,7 +30,7 @@ const AddCardComponent = ({ setAddState, listName }) => {
       return;
     }
 
-    const imgField = () => {
+    const imgFieldFn = () => {
       const fields = [];
       if (selectedImageAnswer) fields.push("a");
       if (selectedImageQuestion) fields.push("q");
@@ -40,9 +38,9 @@ const AddCardComponent = ({ setAddState, listName }) => {
       return fields;
     };
 
-    const fieldImg = imgField();
+    const imgField = imgFieldFn();
     const card = {
-      fieldImg: fieldImg,
+      imgField: imgField,
       question: selectedImageQuestion
         ? selectedImageQuestion.toString()
         : question,
@@ -51,11 +49,9 @@ const AddCardComponent = ({ setAddState, listName }) => {
     };
 
     dispatch(addCard(card));
-    console.log("CL>", currentList);
-    dispatch(setList(listName));
-    console.log("CL depois>", currentList);
     setAddState(false);
   };
+
   return (
     <View style={styles.view}>
       <View style={styles.content}>
@@ -107,26 +103,51 @@ const AddCardComponent = ({ setAddState, listName }) => {
             placeholder="Resposta"
           />
         )}
+
         <View style={styles.viewButton}>
-          <View style={styles.buttonContainer}>
-            <Button title="Ok" onPress={() => handleAddCard()} />
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button title="Cancel" onPress={() => setAddState(false)} />
-          </View>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => addNewCard()}
+          >
+            <Text style={styles.textBtn}>OK</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => setAddState()}
+          >
+            <Text style={styles.textBtn}>Cancelar</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
+  textBtn: { color: "white" },
+  viewButton: {
+    flexDirection: "row",
+    width: "100%",
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  buttonContainer: {
+    width: 120,
+    height: 38,
+    backgroundColor: "#52C1DE",
+    borderRadius: 20,
+    margin: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
   title: {
     fontSize: 20,
     alignItems: "center",
     width: "100%",
     justifyContent: "center",
     margin: 10,
-
+    color: "white",
     marginLeft: 0,
   },
   header: {
@@ -149,9 +170,7 @@ const styles = StyleSheet.create({
     paddingTop: 10, // Espaçamento superior
     textAlignVertical: "top", // Alinha o texto ao topo
     padding: 5,
-  },
-  buttonContainer: {
-    margin: "2%",
+    borderRadius: 10,
   },
   view: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",

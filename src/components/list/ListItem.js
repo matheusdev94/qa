@@ -3,6 +3,10 @@ import { TextInput, View, Text, Button, StyleSheet, Alert } from "react-native";
 import { useDispatch } from "react-redux/dist/react-redux";
 import { setList } from "../../store/reducers/navigationReducer";
 import { deleteList } from "../../store/reducers/cardReducer";
+import DefaultButton from "../buttons/default";
+
+import Icon from "react-native-vector-icons/FontAwesome";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ListItem = ({ list, navigation }) => {
   const [confiramtion, setConfirmation] = useState(false);
@@ -12,30 +16,86 @@ const ListItem = ({ list, navigation }) => {
     dispatch(setList(list.name));
     navigation.navigate("CardView");
   };
+  const showAlertWithOptions = async () => {
+    return await new Promise((resolve) => {
+      Alert.alert(
+        "Excluir?",
+        "Essa ação não pode ser desfeita.",
+        [
+          {
+            text: "Excluir",
+            onPress: () => resolve(true),
+          },
+          {
+            text: "Cancelar",
+            onPress: () => resolve(false),
+            style: "cancel",
+          },
+        ],
+        { cancelable: true }
+      );
+    });
+  };
+  const handleDeleteList = async () => {
+    const userChoice = await showAlertWithOptions();
+
+    if (userChoice) {
+      dispatch(deleteList(list.name));
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 19 }}>{list.name}</Text>
-      <View style={styles.buttonsContainer}>
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={() => setSelectedList(list.name)}
-            title="Selecionar"
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={() => dispatch(deleteList(list.name))}
-            title="Excluir"
-          />
-        </View>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => handleDeleteList()}
+      >
+        <Text style={{ color: "white" }}>Exluir</Text>
+      </TouchableOpacity>
+
+      <View style={styles.itemContainer}>
+        <Text style={{ fontSize: 21 }}>{list.name}</Text>
       </View>
+
+      <TouchableOpacity
+        onPress={() => setSelectedList(list.name)}
+        style={styles.buttonNextContainer}
+      >
+        <Icon name="chevron-right" size={20} color="white" />
+      </TouchableOpacity>
     </View>
   );
 };
 const styles = StyleSheet.create({
+  buttonNextContainer: {
+    backgroundColor: "#52C1DE",
+    height: 45,
+    width: 45,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    margin: 7,
+  },
+  itemContainer: {
+    // flexDirection: 'row'
+    // width: "80%",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+  },
   buttonContainer: {
     margin: 5,
+    backgroundColor: "red",
+    color: "white",
+    padding: 3,
+    paddingLeft: 20,
+    paddingRight: 20,
+    borderRadius: 20,
+    height: "80%",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
   },
   buttonsContainer: {
     flexDirection: "row",
@@ -52,9 +112,9 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
     // backgroundColor: "lightblue",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignSelf: "stretch",
-
+    flexDirection: "row",
     // height: 50,
   },
 });

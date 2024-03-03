@@ -3,14 +3,20 @@ import { TextInput, View, Text, Button, StyleSheet, Alert } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
 import { addList } from "../../store/reducers/cardReducer";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 
 const AddList = ({ setAddListState }) => {
   const dispatch = useDispatch();
   const [listName, setListName] = useState("");
-  const handleAddList = () => {
-    dispatch(addList(listName));
-    setAddListState(false);
+
+  // const doAddList = () => ;
+  const AddList = () => {
+    if (listName === "") {
+      return;
+    } else {
+      dispatch(addList(listName));
+      setAddListState(false);
+    }
   };
   return (
     <View style={styles.view}>
@@ -26,25 +32,41 @@ const AddList = ({ setAddListState }) => {
           placeholder="Nome da lista"
         />
         <View style={styles.viewButton}>
-          <View style={styles.buttonContainer}>
-            <Button title="Ok" onPress={() => handleAddList()} />
-          </View>
           <TouchableOpacity
-            onPress={() => setAddListState()}
+            onPress={() => AddList()}
             style={styles.buttonContainer}
           >
-            <Text>Cancel</Text>
+            <Text style={styles.textBtn}>OK</Text>
           </TouchableOpacity>
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => setAddListState()}
+              style={styles.buttonContainer}
+            >
+              <Text style={styles.textBtn}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
+  textBtn: { color: "white" },
+  buttonContainer: {
+    width: 120,
+    height: 38,
+    backgroundColor: "#52C1DE",
+    borderRadius: 20,
+    margin: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
   titleContainer: {
     justifyContent: "center",
     alignContent: "center",
-    // backgroundColor: "black",
     alignItems: "center",
     fontSize: 20,
   },
@@ -53,24 +75,28 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 14,
   },
-  input: { backgroundColor: "lightgray", color: "white", margin: 10 },
-  buttonContainer: {
-    margin: "2%",
+  input: {
+    backgroundColor: "white",
+    color: "gray",
+    margin: 10,
+    borderRadius: 5,
+    padding: 4,
   },
+
   view: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     padding: "10%",
     position: "absolute",
     width: "100%",
-    height: "100%",
+    height: "110%",
     zIndex: 10,
     alignContent: "center",
     justifyContent: "center",
+    bottom: 0,
   },
   viewButton: {
     flexDirection: "row",
     width: "100%",
-    // backgroundColor: "blue",
     alignContent: "center",
     justifyContent: "center",
   },

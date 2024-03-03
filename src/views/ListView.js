@@ -7,7 +7,7 @@ import ListItem from "../components/list/ListItem";
 import AddList from "../components/list/AddList";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const ListView = ({ navigation }) => {
+const ListView = ({ navigation, setListName }) => {
   const lists = useSelector((state) => state.cards.lists);
 
   // const [selectedList, setSelectedList] = useState(null);
@@ -45,7 +45,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   title: {
-    fontSize: 20,
+    fontSize: 26,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    color: "white",
   },
   item: {
     backgroundColor: "#E8F0FE",
@@ -75,7 +79,7 @@ const styles = StyleSheet.create({
   },
   plusButton: {
     alignSelf: "stretch", // Estique o contêiner horizontalmente
-    backgroundColor: "rgb(82,193,222)",
+    backgroundColor: "rgb(82,193,222)'",
     marginBottom: 5,
     width: "90%",
     height: 50,

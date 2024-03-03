@@ -4,33 +4,63 @@ import { StyleSheet } from "react-native";
 
 const CardItem = ({ card }) => {
   const [cardSide, setCardSide] = useState("Question");
-  console.log("9999999999999999999999999999999999999999", card.answer);
   return (
-    <View style={styles.container}>
-      {cardSide === "Question" ? (
-        <TouchableOpacity
-          onPress={() => setCardSide("Answer")}
-          style={{ padding: 10 }}
-        >
-          {card.imgField.includes("q") ? (
-            <Image style={styles.image} source={{ uri: card.question }} />
-          ) : (
-            <Text style={styles.text}>Question: {card.question}</Text>
-          )}
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          onPress={() => setCardSide("Question")}
-          style={{ padding: 10 }}
-        >
-          {card.imgField.includes("a") ? (
-            <Image style={styles.image} source={{ uri: card.answer }} />
-          ) : (
-            <Text style={styles.text}>Answer: {card.answer}</Text>
-          )}
-        </TouchableOpacity>
-      )}
-    </View>
+    card && (
+      <View style={styles.container}>
+        {cardSide === "Question" ? (
+          <TouchableOpacity
+            onPress={() => setCardSide("Answer")}
+            style={{
+              padding: 10,
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+            }}
+          >
+            {card && (
+              <>
+                {card?.imgField?.includes("q") ? (
+                  <>
+                    <Text style={{ color: "white" }}>Pergunta:</Text>
+                    <Image
+                      style={styles.image}
+                      source={{ uri: card.question }}
+                      resizeMode="contain"
+                    />
+                  </>
+                ) : (
+                  <Text style={styles.text}>Pergunta: {card.question}</Text>
+                )}
+              </>
+            )}
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => setCardSide("Question")}
+            style={{
+              padding: 10,
+              width: "100%",
+              height: "100%",
+              justifyContent: "center",
+            }}
+          >
+            {card?.imgField?.includes("a") ? (
+              <>
+                <Text style={{ color: "white" }}>Reposta:</Text>
+
+                <Image
+                  style={styles.image}
+                  source={{ uri: card.answer }}
+                  resizeMode="contain"
+                />
+              </>
+            ) : (
+              <Text style={styles.text}>Resposta: {card.answer}</Text>
+            )}
+          </TouchableOpacity>
+        )}
+      </View>
+    )
   );
 };
 const styles = StyleSheet.create({

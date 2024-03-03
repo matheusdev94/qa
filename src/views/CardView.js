@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import { View, Button, Text, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import CardItem from "../components/card/CardItem";
 import AddCardComponent from "../components/card/AddCardComponent";
 import EditCardComponent from "../components/card/EditCardComponent";
+import DefaultButton from "../components/buttons/default";
 
 const CardView = ({ navigation, listName }) => {
   const dispatch = useDispatch();
@@ -25,25 +26,54 @@ const CardView = ({ navigation, listName }) => {
   const lists = useSelector((state) => state.cards.lists);
 
   let currentList = lists.find((l) => l.name === selectedList);
-  console.log("CLCLCLCL> ", currentList);
 
   const handleAddIndex = () => {
     if (index >= currentList?.cards?.length - 1) {
-      return;
+      setIndex(0);
+    } else {
+      setIndex(index + 1);
     }
-    setIndex(index + 1);
-  };
-  const handleDecreaseIndex = () => {
-    if (index <= 0) {
-      return;
-    }
-    setIndex(index - 1);
   };
 
-  const handleDeleteCard = (index) => {
-    const listName = currentList?.name;
-    const question = currentList?.cards[index].question;
-    dispatch(deleteCard({ listName, question }));
+  const handleDecreaseIndex = () => {
+    if (index <= 0) {
+      setIndex(currentList?.cards?.length - 1);
+    } else {
+      setIndex(index - 1);
+    }
+  };
+  const showAlertWithOptions = async () => {
+    return await new Promise((resolve) => {
+      Alert.alert(
+        "Excluir o card?",
+        "Essa ação não pode ser desfeita",
+        [
+          {
+            text: "Excluir",
+            onPress: () => resolve("delete"),
+          },
+          {
+            text: "Cancelar",
+            onPress: () => resolve("cancel"),
+            style: "cancel",
+          },
+        ],
+        { cancelable: true }
+      );
+    });
+  };
+  const handleDeleteCard = async (index) => {
+    const userChoice = await showAlertWithOptions();
+    try {
+      if (userChoice === "delete") {
+        const listName = currentList.name;
+        const question = currentList.cards[index].question;
+        dispatch(deleteCard({ listName, question }));
+        setIndex(index - 1);
+      }
+    } catch (error) {
+      console.error("Erro ao lidar com a exclusão do cartão:", error);
+    }
   };
 
   return (
@@ -64,14 +94,12 @@ const CardView = ({ navigation, listName }) => {
       <View style={styles.header}>
         <View style={styles.plusButtonContainer}>
           <TouchableOpacity
-            style={styles.plusButton}
+            style={styles.backButton}
             onPress={() => {
               navigation.navigate("Lists");
             }}
           >
-            <Text style={styles.textButton}>
-              <Icon name="chevron-left" size={20} color="white" />
-            </Text>
+            <Icon name="chevron-left" size={20} color="white" />
           </TouchableOpacity>
         </View>
         <Text style={styles.title}>{currentList?.name}</Text>
@@ -88,21 +116,39 @@ const CardView = ({ navigation, listName }) => {
       </View>
       <View style={styles.plusButtonContainer}>
         <View style={styles.navButtons}>
-          <View style={{ margin: 2 }}>
-            <Button
-              // Defina a margem como 5 pixels
-              title="Editar"
-              onPress={() => setEditState(true)}
-            />
-          </View>
-          <View style={{ margin: 2 }}>
-            <Button
-              title="Excluir"
-              onPress={() => {
-                handleDeleteCard(index, currentList.name);
+          <TouchableOpacity
+            disabled={!currentList?.cards[index]}
+            onPress={() => handleDeleteCard(index, currentList.name)}
+            style={styles.cardButton}
+          >
+            <Text style={styles.cardButtonText}>Exluir</Text>
+          </TouchableOpacity>
+
+          <View
+            style={{
+              justifyContent: "flex-end",
+              margin: 2,
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                justifyContent: "flex-end",
+                padding: 1,
               }}
-            />
+            >
+              {currentList.cards.length > 0 ? index + 1 : 0}/
+              {currentList.cards.length}
+            </Text>
           </View>
+
+          <TouchableOpacity
+            disabled={!currentList?.cards[index]}
+            onPress={() => setEditState(true)}
+            style={styles.cardButton}
+          >
+            <Text style={styles.cardButtonText}>Editar</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.cardContainer}>
@@ -112,24 +158,47 @@ const CardView = ({ navigation, listName }) => {
           <Text style={styles.text}>Lista vazia...</Text>
         )}
       </View>
+      <View style={styles.navigationButtonsContainer}>
+        <TouchableOpacity
+          style={styles.cardButton}
+          disabled={!currentList?.cards[index]}
+          onPress={() => handleDecreaseIndex(index, currentList.name)}
+        >
+          <Text style={styles.cardButtonText}>Anterior</Text>
+        </TouchableOpacity>
 
-      <View style={styles.navButtons}>
-        <View style={{ margin: 2 }}>
-          <Button
-            // Defina a margem como 5 pixels
-            title="< Anterior"
-            onPress={() => handleDecreaseIndex()}
-          />
-        </View>
-        <View style={{ margin: 2 }}>
-          <Button title="Proximo >" onPress={() => handleAddIndex()} />
-        </View>
+        <TouchableOpacity
+          disabled={!currentList?.cards[index]}
+          onPress={() => handleAddIndex(index, currentList.name)}
+          style={styles.cardButton}
+        >
+          <Text style={styles.cardButtonText}>Proximo</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  navigationButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: "100%",
+    // height: "100%",
+  },
+  cardButtonText: { color: "white" },
+  cardButton: {
+    backgroundColor: "#52C1DE",
+    padding: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    height: 40,
+    width: 100,
+    margin: 3,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   title: {
     fontSize: 26,
     alignSelf: "center",
@@ -155,6 +224,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignSelf: "center",
+    margin: 0,
+  },
+  backButton: {
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignContent: "center",
+    alignSelf: "center",
+    borderRadius: 70,
+    height: 40,
+    width: 40,
+    marginLeft: 15,
   },
   plusButton: {
     backgroundColor: "#96C7F2",
@@ -163,6 +243,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 70,
     height: 40,
+    marginRight: 15,
     width: 40,
   },
   plusButtonContainer: {
@@ -170,17 +251,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignSelf: "center",
-    margin: 5,
   },
   text: {
     width: "100%",
     height: "100%",
-    backgroundColor: "aqua",
     alignContent: "center",
     justifyContent: "center",
     backgroundColor: "white",
     alignContent: "center",
     justifyContent: "center",
+    padding: 10,
   },
   listsContainer: {
     flex: 1,
@@ -201,7 +281,7 @@ const styles = StyleSheet.create({
   navButtons: {
     width: "100%",
     alignContent: "center",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     flexDirection: "row",
     margin: 4,
   },
