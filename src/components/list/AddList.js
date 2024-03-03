@@ -4,7 +4,7 @@ import { TextInput, View, Text, Button, StyleSheet, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { addList } from "../../store/reducers/cardReducer";
 import { TouchableOpacity } from "react-native";
-import OkCancelButton from "../buttons/OkCancel";
+import OkCancelButton from "../buttons/OkCancelButton";
 
 const AddList = ({ setAddListState }) => {
   const dispatch = useDispatch();

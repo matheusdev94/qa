@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addCard, addList } from "../../store/reducers/cardReducer";
 
 import UploadPhotoButton from "../photoUploader/uploadPhotoButton";
-import OkCancelButton from "../buttons/OkCancel";
+import OkCancelButton from "../buttons/OkCancelButton";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import { setList } from "../../store/reducers/navigationReducer";

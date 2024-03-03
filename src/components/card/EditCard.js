@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from "react-native";
 
 import { useDispatch } from "react-redux";
 import { updateCard } from "../../store/reducers/cardReducer";
-import OkCancelButton from "../buttons/OkCancel";
+import OkCancelButton from "../buttons/OkCancelButton";
 import QAInputField from "./QAInputField";
 
 const EditCardComponent = ({ currentCard, listName, setEditState }) => {
