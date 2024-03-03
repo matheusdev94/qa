@@ -3,13 +3,14 @@ import { TextInput, View, Text, Button, StyleSheet, Alert } from "react-native";
 import { useDispatch } from "react-redux/dist/react-redux";
 import { setList } from "../../store/reducers/navigationReducer";
 import { deleteList } from "../../store/reducers/cardReducer";
-import DefaultButton from "../buttons/defaultButton";
+import DefaultButton from "../buttons/DefaultButton";
 
 import { confirmationAlert } from "../confirmation/ConfirmationAlert";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import IconButton from "../buttons/IconButton";
+import ListCounter from "./ListCountItem";
 
 const ListItem = ({ list, navigation }) => {
   const [confiramtion, setConfirmation] = useState(false);
@@ -30,6 +31,8 @@ const ListItem = ({ list, navigation }) => {
     }
   };
 
+  console.log("LIST: ", list);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -44,6 +47,7 @@ const ListItem = ({ list, navigation }) => {
         onPress={() => setSelectedList(list.name)}
       >
         <Text style={{ fontSize: 21 }}>{list.name}</Text>
+        <ListCounter list={list} />
       </TouchableOpacity>
 
       <IconButton
@@ -81,21 +85,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     backgroundColor: "none",
-    // paddingTop: 20, // Ajuste o espaçamento do topo conforme necessário
-    // paddingHorizontal: 20, // Adicione preenchimento horizontal
-    alignSelf: "stretch", // Estique o contêiner horizontalmente
+    alignSelf: "stretch",
     backgroundColor: "transparent",
-    // width: "100%",
   },
   container: {
     flex: 1,
-    // backgroundColor: "red",
-    // backgroundColor: "lightblue",
     alignItems: "center",
     justifyContent: "space-between",
     alignSelf: "stretch",
     flexDirection: "row",
-    // height: 50,
   },
 });
 export default ListItem;
