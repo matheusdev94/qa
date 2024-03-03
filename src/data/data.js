@@ -26,7 +26,7 @@ export async function readFile() {
   try {
     const fileData = await FileSystem.getInfoAsync(fileUri);
 
-    if (fileData.exists) {
+    if (!fileData.exists) {
       initFile();
     }
 
