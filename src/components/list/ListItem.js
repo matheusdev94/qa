@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { TextInput, View, Text, Button, StyleSheet, Alert } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux/dist/react-redux";
 import { setList } from "../../store/reducers/navigationReducer";
 import { deleteList } from "../../store/reducers/cardReducer";
@@ -16,12 +16,19 @@ const ListItem = ({ list, navigation, setEditListName, setEditListState }) => {
     navigation.navigate("CardView");
   };
   const showAlertWithOptions = async () =>
-    confirmationAlert("Excluir a lista?", "Essa ação não pode ser desfeita.");
+    confirmationAlert(
+      "Excluir a lista?",
+      `A lista "${list.name}" não está vazia.\nDeseja continuar?`
+    );
 
   const handleDeleteList = async () => {
-    const userChoice = await showAlertWithOptions();
+    if (list.cards.length > 0) {
+      const userChoice = await showAlertWithOptions();
 
-    if (userChoice) {
+      if (userChoice) {
+        dispatch(deleteList(list.name));
+      }
+    } else {
       dispatch(deleteList(list.name));
     }
   };
