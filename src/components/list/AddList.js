@@ -30,6 +30,7 @@ const AddList = ({ setAddListState }) => {
           onChangeText={(e) => setListName(e)}
           value={listName}
           placeholder="Nome da lista"
+          maxLength={50}
         />
         <View style={styles.viewButton}>
           <OkCancelButton onPressHandler={() => AddList()} text={"Ok"} />

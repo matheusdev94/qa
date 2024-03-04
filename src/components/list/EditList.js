@@ -31,6 +31,7 @@ const EditList = ({ setEditListState, originalListName }) => {
           onChangeText={(e) => setListName(e)}
           value={listName}
           placeholder="Nome da lista"
+          maxLength={50}
         />
         <View style={styles.buttonContainer}>
           <OkCancelButton onPressHandler={() => editList()} text={"Ok"} />
