@@ -36,7 +36,6 @@ const cardSlice = createSlice({
     },
 
     addCard(state, action) {
-      console.log(action.payload);
       const { imgField, question, answer, listName } = action.payload;
       const list = state.lists.find((list) => list.name === listName);
       list.cards.push({
@@ -47,9 +46,11 @@ const cardSlice = createSlice({
       writeFile(state);
     },
     deleteCard(state, action) {
-      const { listName, question } = action.payload;
+      const { listName, question, answer } = action.payload;
       const list = state.lists.find((list) => list.name === listName);
-      list.cards = list.cards.filter((item) => item.question !== question);
+      list.cards = list.cards.filter(
+        (item) => item.question !== question && item.answer !== answer
+      );
       writeFile(state);
     },
     updateCard(state, action) {
