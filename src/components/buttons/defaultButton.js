@@ -11,13 +11,17 @@ const DefaultButton = ({ onPressHandler, text, disabledIf }) => {
       disabled={disabledIf}
       onPress={() => handlePress()}
     >
-      <Text style={styles.buttonText}>{text}</Text>
+      <Text style={disabledIf ? styles.buttonTextDisabled : styles.buttonText}>
+        {text}
+      </Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  buttonText: { color: "white" },
+  buttonText: {
+    color: "white",
+  },
   button: {
     backgroundColor: "#52C1DE",
     padding: 10,
@@ -30,17 +34,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  buttonTextDisabled: {
+    display: "none",
+  },
   disableButon: {
-    backgroundColor: "lightgray",
-    padding: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    height: 40,
-    width: 100,
-    margin: 3,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
+    visibility: "hidden",
   },
 });
 
