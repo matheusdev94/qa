@@ -1,21 +1,11 @@
 import * as FileSystem from "expo-file-system";
+import { mock } from "./mock";
 
 const fileUri = `${FileSystem.documentDirectory}QA-Data.json`;
 
 export const initFile = () => {
   writeFile({
-    lists: [
-      {
-        name: "sample",
-        cards: [
-          {
-            imgField: [],
-            answer: "bla bla",
-            question: "bla?",
-          },
-        ],
-      },
-    ],
+    lists: mock,
   });
 };
 
@@ -40,7 +30,6 @@ export async function readFile() {
 export async function writeFile(newData) {
   try {
     await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(newData));
-    console.log("Dados escritos no arquivo JSON com sucesso.");
   } catch (error) {
     console.error("Erro ao escrever dados no arquivo JSON:", error);
   }
