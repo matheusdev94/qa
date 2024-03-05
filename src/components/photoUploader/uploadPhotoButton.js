@@ -14,7 +14,7 @@ const UploadPhotoButton = ({
   const handlePickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
-      alert("Permissão para acessar a galeria de mídia foi negada.");
+      Alert.alert("Permissão para acessar a galeria de mídia foi negada.");
       return;
     }
 
