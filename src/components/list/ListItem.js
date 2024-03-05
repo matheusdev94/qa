@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    backgroundColor: "none",
     alignSelf: "stretch",
     backgroundColor: "transparent",
   },
