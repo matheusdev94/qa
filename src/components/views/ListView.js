@@ -13,10 +13,6 @@ const ListView = ({ navigation }) => {
   const [editListState, setEditListState] = useState(false);
   const [editListName, setEditListName] = useState(null);
 
-  useEffect(() => {
-    console.log(lists);
-  }, [lists]);
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Listas</Text>
