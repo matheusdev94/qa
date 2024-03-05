@@ -48,7 +48,11 @@ const CardView = ({ navigation }) => {
       if (userChoice) {
         const listName = currentList.name;
         const question = currentList.cards[index].question;
-        dispatch(deleteCard({ listName, question }));
+        const answer = currentList.cards[index].answer;
+        dispatch(deleteCard({ listName, question, answer }));
+        if (index === 0) {
+          return;
+        }
         setIndex(index - 1);
       }
     } catch (error) {
